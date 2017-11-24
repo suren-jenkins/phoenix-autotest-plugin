@@ -2,10 +2,8 @@ package org.jenkinsci.plugins.phoenix.steps;
 
 import hudson.Extension;
 import hudson.FilePath;
-import org.jenkinsci.plugins.workflow.steps.Step;
-import org.jenkinsci.plugins.workflow.steps.StepContext;
-import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
-import org.jenkinsci.plugins.workflow.steps.StepExecution;
+import hudson.model.TaskListener;
+import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import javax.annotation.Nonnull;
@@ -36,11 +34,11 @@ public class TriggerStep extends Step
         @Override
         public String getFunctionName()
         {
-            return "trigger";
+            return "suren";
         }
     }
 
-    public static class Execution extends StepExecution
+    public static class Execution extends AbstractStepExecutionImpl
     {
         private StepContext stepContext;
 
@@ -54,6 +52,12 @@ public class TriggerStep extends Step
         {
             System.out.println("trigger start");
             System.out.println(this.stepContext.hasBody());
+
+            TaskListener listener = this.stepContext.get(TaskListener.class);
+
+            listener.getLogger().println("phoenix logger");
+            stepContext.onSuccess("success result");
+
             return true;
         }
 
