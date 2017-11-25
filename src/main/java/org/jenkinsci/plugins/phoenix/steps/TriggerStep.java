@@ -5,20 +5,35 @@ import hudson.FilePath;
 import hudson.model.TaskListener;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
 
 import javax.annotation.Nonnull;
+import java.io.PrintStream;
 import java.util.Collections;
 import java.util.Set;
 
 public class TriggerStep extends Step
 {
+    private String text;
+
     @DataBoundConstructor
     public TriggerStep(){}
+
+    public String getText()
+    {
+        return text;
+    }
+
+    @DataBoundSetter
+    public void setText(String text)
+    {
+        this.text = text;
+    }
 
     @Override
     public StepExecution start(StepContext stepContext) throws Exception
     {
-        return new Execution(stepContext);
+        return new Execution(this, stepContext);
     }
 
     @Extension
@@ -28,7 +43,7 @@ public class TriggerStep extends Step
         @Override
         public Set<? extends Class<?>> getRequiredContext()
         {
-            return Collections.singleton(FilePath.class);
+            return Collections.singleton(TaskListener.class);
         }
 
         @Override
@@ -36,14 +51,23 @@ public class TriggerStep extends Step
         {
             return "suren";
         }
+
+        @Nonnull
+        @Override
+        public String getDisplayName()
+        {
+            return "suren display";
+        }
     }
 
     public static class Execution extends AbstractStepExecutionImpl
     {
         private StepContext stepContext;
+        private TriggerStep triggerStep;
 
-        public Execution(StepContext stepContext)
+        public Execution(TriggerStep triggerStep, StepContext stepContext)
         {
+            this.triggerStep = triggerStep;
             this.stepContext = stepContext;
         }
 
@@ -55,7 +79,9 @@ public class TriggerStep extends Step
 
             TaskListener listener = this.stepContext.get(TaskListener.class);
 
-            listener.getLogger().println("phoenix logger");
+            PrintStream logger = listener.getLogger();
+            logger.println("phoenix logger");
+            logger.println(triggerStep.getText());
             stepContext.onSuccess("success result");
 
             return true;
