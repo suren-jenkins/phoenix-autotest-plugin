@@ -1,21 +1,20 @@
 package org.jenkinsci.plugins.phoenix;
 
 import hudson.Extension;
+import hudson.LocalPluginManager;
+import hudson.PluginManager;
 import hudson.model.Action;
-import hudson.model.Computer;
-import hudson.slaves.SlaveComputer;
 import jenkins.model.TransientActionFactory;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 
 @Extension
-public class ComputerAction extends TransientActionFactory<SlaveComputer> implements Action
+public class UpdateCenterAction extends TransientActionFactory<LocalPluginManager> implements Action
 {
-    public SlaveComputer computer;
+    private LocalPluginManager target;
 
     @CheckForNull
     @Override
@@ -35,37 +34,28 @@ public class ComputerAction extends TransientActionFactory<SlaveComputer> implem
     @Override
     public String getUrlName()
     {
-        return "surenc";
+        return "surenUpdate";
     }
 
-    public String doTest()
+    public void doTest()
     {
-        System.out.println("suren test");
-        System.out.println(computer);
-//        System.out.println(computer.getLauncher());
-
-//        return computer.getBuilds() + "";
-        return "";
-    }
-
-    public void doDelete() throws IOException, InterruptedException
-    {
+        System.out.println(target + "==");
     }
 
     @Override
-    public Class<SlaveComputer> type()
+    public Class<LocalPluginManager> type()
     {
-        return SlaveComputer.class;
+        return LocalPluginManager.class;
     }
 
     @Nonnull
     @Override
-    public Collection<? extends Action> createFor(@Nonnull SlaveComputer computer)
+    public Collection<? extends Action> createFor(@Nonnull LocalPluginManager target)
     {
         try
         {
-            ComputerAction instance = getClass().newInstance();
-            instance.computer = this.computer;
+            UpdateCenterAction instance = getClass().newInstance();
+            instance.target = target;
 
             return Collections.singleton(instance);
         } catch (InstantiationException e)

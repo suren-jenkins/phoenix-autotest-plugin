@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.phoenix;
 
+import hudson.Extension;
 import hudson.model.Slave;
 import hudson.slaves.SlaveComputer;
 import org.kohsuke.stapler.StaplerRequest;
