@@ -28,7 +28,7 @@ public class ComputerAction extends TransientActionFactory<SlaveComputer> implem
     @Override
     public String getDisplayName()
     {
-        return null;
+        return "surenc";
     }
 
     @CheckForNull
