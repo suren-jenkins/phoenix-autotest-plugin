@@ -5,7 +5,6 @@ import hudson.model.TaskListener;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
-import org.suren.autotest.web.framework.settings.Phoenix;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -66,9 +65,9 @@ public class PhoenixDriverStep extends Step
         @Override
         public boolean start() throws Exception
         {
-            Phoenix phoenix = new Phoenix();
-            phoenix.init();
-            phoenix.getEngine().getDriver().get("http://baidu.com");
+//            Phoenix phoenix = new Phoenix();
+//            phoenix.init();
+//            phoenix.getEngine().getDriver().get("http://baidu.com");
             context.onSuccess("dd");
             return false;
         }
