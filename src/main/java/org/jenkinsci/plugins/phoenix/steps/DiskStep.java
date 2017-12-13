@@ -52,7 +52,7 @@ public class DiskStep extends Step
         @Override
         public String getFunctionName()
         {
-            return "disk";
+            return "phoenixDisk";
         }
     }
 
@@ -71,7 +71,6 @@ public class DiskStep extends Step
         public boolean start() throws Exception
         {
             long free = new File("/").getFreeSpace();
-            System.out.println(free);
             PrintStream logger = stepContext.get(TaskListener.class).getLogger();
             logger.println("free: " + free + "; need: " + diskStep.getNeed());
 
