@@ -4,12 +4,15 @@ import hudson.Extension;
 import hudson.LocalPluginManager;
 import hudson.PluginManager;
 import hudson.model.Action;
+import hudson.model.Label;
+import jenkins.model.Jenkins;
 import jenkins.model.TransientActionFactory;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 @Extension
 public class UpdateCenterAction extends TransientActionFactory<LocalPluginManager> implements Action
@@ -40,6 +43,11 @@ public class UpdateCenterAction extends TransientActionFactory<LocalPluginManage
     public void doTest()
     {
         System.out.println(target + "==");
+    }
+
+    public Set<Label> doHello()
+    {
+        return Jenkins.getInstance().getLabels();
     }
 
     @Override
