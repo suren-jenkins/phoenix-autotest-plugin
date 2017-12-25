@@ -20,7 +20,7 @@ public class FtpStep extends DurableStep
     private String username;
     private String password;
 
-    private File srcFile;
+    private String srcFile;
     private String targetDir;
 
     @DataBoundConstructor
@@ -98,13 +98,13 @@ public class FtpStep extends DurableStep
         this.password = password;
     }
 
-    public File getSrcFile()
+    public String getSrcFile()
     {
         return srcFile;
     }
 
     @DataBoundSetter
-    public void setSrcFile(File srcFile)
+    public void setSrcFile(String srcFile)
     {
         this.srcFile = srcFile;
     }

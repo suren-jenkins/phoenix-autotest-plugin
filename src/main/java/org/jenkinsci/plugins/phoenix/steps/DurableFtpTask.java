@@ -4,11 +4,14 @@ import hudson.EnvVars;
 import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.TaskListener;
-import org.apache.commons.net.ftp.FTPClient;
 import org.jenkinsci.plugins.durabletask.Controller;
 import org.jenkinsci.plugins.durabletask.DurableTask;
+import sun.net.ftp.FtpClient;
+import sun.net.ftp.FtpProtocolException;
 
 import java.io.*;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 
 /**
  * @author suren
@@ -35,6 +38,10 @@ public class DurableFtpTask extends DurableTask implements Serializable
         {
             logger.println(e.getMessage());
         }
+        catch (FtpProtocolException e)
+        {
+            logger.println(e.getMessage());
+        }
 
         return new DurableController();
     }
@@ -44,21 +51,20 @@ public class DurableFtpTask extends DurableTask implements Serializable
     {
     }
 
-    private void publish() throws IOException
+    public void publish() throws IOException, FtpProtocolException
     {
-        FTPClient client = new FTPClient();
-        client.connect(ftpStep.getServerHost(), ftpStep.getServerPort());
-        client.login(ftpStep.getUsername(), ftpStep.getPassword());
-        client.enterLocalPassiveMode();
+        FtpClient client = FtpClient.create();
+        SocketAddress addr = new InetSocketAddress(
+                ftpStep.getServerHost(), ftpStep.getServerPort());
+        client.connect(addr);
+        client.login(ftpStep.getUsername(), ftpStep.getPassword().toCharArray());
 
-        client.changeWorkingDirectory(ftpStep.getTargetDir());
-        client.setFileType(FTPClient.BINARY_FILE_TYPE);
+        client.changeDirectory(ftpStep.getTargetDir());
 
-        File srcFile = ftpStep.getSrcFile();
-
+        File srcFile = new File(ftpStep.getSrcFile());
         try(InputStream fis = new FileInputStream(srcFile))
         {
-            client.storeFile(srcFile.getName(), fis);
+            client.putFile(srcFile.getName(), fis, true);
         }
     }
 }
