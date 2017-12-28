@@ -1,5 +1,8 @@
 package org.jenkinsci.plugins.phoenix.steps;
 
+import com.surenpi.jenkins.pipeline.step.DurableExecution;
+import com.surenpi.jenkins.pipeline.step.DurableStep;
+import com.surenpi.jenkins.pipeline.step.DurableTaskStepDescriptor;
 import hudson.Extension;
 import org.jenkinsci.plugins.durabletask.DurableTask;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
@@ -29,11 +32,11 @@ public class FtpStep extends DurableStep
     @Override
     public StepExecution start(StepContext context) throws Exception
     {
-        return new Execution(context, this);
+        return new DurableExecution(context, this);
     }
 
     @Override
-    DurableTask task()
+    public DurableTask task()
     {
         return new DurableFtpTask(this);
     }

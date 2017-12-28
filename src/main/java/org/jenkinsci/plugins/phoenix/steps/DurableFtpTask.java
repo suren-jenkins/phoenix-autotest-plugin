@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.phoenix.steps;
 
+import com.surenpi.jenkins.pipeline.step.DurableController;
 import hudson.EnvVars;
 import hudson.FilePath;
 import hudson.Launcher;
