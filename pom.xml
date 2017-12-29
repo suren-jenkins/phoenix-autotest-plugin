@@ -10,13 +10,13 @@
     </parent>
 
     <groupId>org.jenkins-ci.plugins.workflow</groupId>
-    <artifactId>phoenix-pipeline-utility</artifactId>
+    <artifactId>phoenix-autotest</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
 
-    <name>Pipeline: Phoenix Pipeline Utility Plugin</name>
+    <name>Pipeline: Phoenix AutoTest Plugin</name>
     <description>自动化测试框架流水线</description>
-    <url>https://github.com/suren-jenkins/phoenix.pipeline.utility.plugin</url>
+    <url>https://github.com/suren-jenkins/phoenix-autotest</url>
 
     <properties>
         <jenkins.version>2.7.3</jenkins.version>
