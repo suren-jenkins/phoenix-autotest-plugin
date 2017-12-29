@@ -14,3 +14,11 @@ copy a file from master to slaver
 copy(srcFile: 'changelog0.xml',
     dstFile: 'changelog.xml')
 ```
+
+Execute a sql file
+```jenkins
+phoenixSql(credentialsId: 'abac12df-4ed1-43df-bc3c-74c8a0936bc0',
+    url: 'jdbc:mysql://localhost:3306/test',
+    sql: 'test.sql',
+    isText: true)
+```

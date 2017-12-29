@@ -1,41 +1,44 @@
 package com.surenpi.jenkins.phoenix.steps;
 
+import com.cloudbees.plugins.credentials.Credentials;
+import com.cloudbees.plugins.credentials.CredentialsMatchers;
+import com.cloudbees.plugins.credentials.CredentialsProvider;
+import com.cloudbees.plugins.credentials.common.UsernamePasswordCredentials;
+import com.cloudbees.plugins.credentials.domains.DomainRequirement;
 import hudson.EnvVars;
 import hudson.FilePath;
 import hudson.Launcher;
 import hudson.model.TaskListener;
+import hudson.security.ACL;
+import jenkins.model.Jenkins;
+import org.apache.ibatis.jdbc.ScriptRunner;
 import org.jenkinsci.plugins.durabletask.Controller;
 import org.jenkinsci.plugins.durabletask.DurableTask;
 
 import javax.annotation.CheckForNull;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.Serializable;
+import java.io.*;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author suren
  */
 public class DurableJdbcTask extends DurableTask implements Serializable
 {
-    private final String url;
-    private final String user;
-    private final String password;
-    private final String sql;
+    private final JdbcStep jdbcStep;
 
-    public DurableJdbcTask(String url, String user, String password, String sql)
+    public DurableJdbcTask(JdbcStep jdbcStep)
     {
-        this.url = url;
-        this.user = user;
-        this.password = password;
-        this.sql = sql;
+        this.jdbcStep = jdbcStep;
     }
 
     @Override
-    public Controller launch(EnvVars env, FilePath workspace, Launcher launcher, TaskListener listener) throws IOException, InterruptedException
+    public Controller launch(EnvVars env, FilePath workspace, Launcher launcher, TaskListener listener)
+            throws IOException, InterruptedException
     {
         PrintStream logger = listener.getLogger();
 
@@ -48,15 +51,48 @@ public class DurableJdbcTask extends DurableTask implements Serializable
             e.printStackTrace();
         }
 
-        try(Connection conn = DriverManager.getConnection(url, user, password))
-        {
-            Statement stage = conn.createStatement();
+        List<UsernamePasswordCredentials> allCredentials = CredentialsProvider.lookupCredentials
+                (UsernamePasswordCredentials.class, Jenkins.getInstance(), ACL.SYSTEM, new ArrayList<DomainRequirement>());
 
-            stage.execute(sql);
-        }
-        catch (Exception ex)
+        Credentials credential = CredentialsMatchers.firstOrNull(
+                allCredentials, CredentialsMatchers.withId(jdbcStep.getCredentialsId()));
+
+        if(credential instanceof UsernamePasswordCredentials)
         {
-            logger.println(ex.getLocalizedMessage());
+            UsernamePasswordCredentials upCre = (UsernamePasswordCredentials) credential;
+
+            String userName = upCre.getUsername();
+            String password = upCre.getPassword().getPlainText();
+
+            Reader reader = null;
+            try(Connection conn = DriverManager.getConnection(jdbcStep.getUrl(), userName, password))
+            {
+                Statement stage = conn.createStatement();
+
+                ScriptRunner runner = new ScriptRunner(conn);
+
+                if(jdbcStep.isText())
+                {
+                    reader = new InputStreamReader(new ByteArrayInputStream(jdbcStep.getSql().getBytes()));
+                }
+                else
+                {
+                    reader = new FileReader(new File(jdbcStep.getSql()));
+                }
+
+                runner.runScript(reader);
+            }
+            catch (Exception ex)
+            {
+                logger.println(ex.getLocalizedMessage());
+            }
+            finally
+            {
+                if(reader != null)
+                {
+                    reader.close();
+                }
+            }
         }
 
         return new JdbcController();
