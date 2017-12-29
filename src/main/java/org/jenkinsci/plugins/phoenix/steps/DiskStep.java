@@ -54,6 +54,13 @@ public class DiskStep extends Step
         {
             return "phoenixDisk";
         }
+
+        @Nonnull
+        @Override
+        public String getDisplayName()
+        {
+            return "sdffd";
+        }
     }
 
     public static class Execution extends AbstractStepExecutionImpl
