@@ -12,13 +12,26 @@ import jenkins.model.Jenkins;
 import jenkins.tasks.SimpleBuildStep;
 import hudson.tasks.Builder;
 import org.jenkinsci.Symbol;
+import org.jenkinsci.plugins.workflow.job.WorkflowJob;
+import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
 
 import javax.annotation.Nonnull;
+import java.io.File;
 import java.io.IOException;
 
+/**
+ * Copy a file from master to slaver.
+ * @author suren
+ */
 public class CopyStep extends Builder implements SimpleBuildStep
 {
+    private String srcFile;
+    private String dstFile;
+    private boolean keepMeta = false;
+    private boolean recursive = false;
+
     @DataBoundConstructor
     public CopyStep(){}
 
@@ -28,22 +41,36 @@ public class CopyStep extends Builder implements SimpleBuildStep
             throws InterruptedException, IOException
     {
         Jenkins jenkins = Jenkins.getInstance();
+        if(run instanceof WorkflowRun)
+        {
+            WorkflowRun wf = (WorkflowRun) run;
+            WorkflowJob job = wf.getParent();
+            File jobBuildDir = jenkins.getBuildDirFor(job);
 
-        if (run instanceof AbstractBuild) {
-            AbstractBuild build = (AbstractBuild) run;
-            AbstractProject pro = ((AbstractBuild) run).getProject();
+            int number = wf.getNumber();
 
-            FilePath ws = build.getWorkspace();
+            File sourceFile = new File(jobBuildDir, String.format("%d/%s", number, srcFile));
 
-            FilePath ps = build.getProject().getScm().getModuleRoot(ws, build);
+            FilePath sourcePath = new FilePath(sourceFile);
+            FilePath targetPath = new FilePath(workspace, dstFile);
 
-            System.out.println(ws.toURI());
-            System.out.println(ps.toURI());
+            if(keepMeta)
+            {
+                sourcePath.copyToWithPermission(targetPath);
+            }
+            else if(recursive)
+            {
+                sourcePath.copyRecursiveTo(targetPath);
+            }
+            else
+            {
+                sourcePath.copyTo(targetPath);
+            }
         }
     }
 
     @Extension
-    @Symbol("copySuRen")
+    @Symbol("copy")
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder>
     {
         @Override
@@ -51,5 +78,49 @@ public class CopyStep extends Builder implements SimpleBuildStep
         {
             return true;
         }
+    }
+
+    public String getSrcFile()
+    {
+        return srcFile;
+    }
+
+    @DataBoundSetter
+    public void setSrcFile(String srcFile)
+    {
+        this.srcFile = srcFile;
+    }
+
+    public String getDstFile()
+    {
+        return dstFile;
+    }
+
+    @DataBoundSetter
+    public void setDstFile(String dstFile)
+    {
+        this.dstFile = dstFile;
+    }
+
+    public boolean isKeepMeta()
+    {
+        return keepMeta;
+    }
+
+    @DataBoundSetter
+    public void setKeepMeta(boolean keepMeta)
+    {
+        this.keepMeta = keepMeta;
+    }
+
+    public boolean isRecursive()
+    {
+        return recursive;
+    }
+
+    @DataBoundSetter
+    public void setRecursive(boolean recursive)
+    {
+        this.recursive = recursive;
     }
 }
