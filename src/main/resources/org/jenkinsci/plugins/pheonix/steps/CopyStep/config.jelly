@@ -31,4 +31,12 @@ THE SOFTWARE.
     <f:entry field="dstFile" title="dstFile">
         <f:textbox/>
     </f:entry>
+    <f:advanced>
+        <f:entry field="keepMeta" title="keepMeta">
+            <f:textbox/>
+        </f:entry>
+        <f:entry field="recursive" title="recursive">
+            <f:textbox/>
+        </f:entry>
+    </f:advanced>
 </j:jelly>
