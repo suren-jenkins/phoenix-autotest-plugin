@@ -4,12 +4,9 @@
 
 upload file to a file server
 ```jenkins
-phoenixFtp(serverHost: 'localhost',
-    serverPort: 21,
-    username: 'demo',
-    password: 'demo',
-    srcFile: '/root/pom.xml',
-    targetDir: 'demo_demo')
+phoenixFtp(serverHost: '192.168.1.1',
+    credentialsId: 'a52b4173-cf98-47a0-bd02-3e9019a6082d',
+    srcFile: 'pom.xml', targetDir: '.')
 ```
 
 copy a file from master to slaver

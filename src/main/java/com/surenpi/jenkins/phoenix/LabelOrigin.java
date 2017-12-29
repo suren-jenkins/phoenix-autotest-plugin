@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.phoenix;
+package com.surenpi.jenkins.phoenix;
 
 import hudson.model.Label;
 import hudson.model.labels.LabelAtom;

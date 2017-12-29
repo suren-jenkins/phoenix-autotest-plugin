@@ -1,7 +1,6 @@
-package org.jenkinsci.plugins.phoenix.steps;
+package com.surenpi.jenkins.phoenix.steps;
 
 import hudson.Extension;
-import hudson.FilePath;
 import hudson.model.TaskListener;
 import org.jenkinsci.plugins.workflow.steps.*;
 import org.kohsuke.stapler.DataBoundConstructor;

@@ -1,8 +1,7 @@
-package org.jenkinsci.plugins.phoenix;
+package com.surenpi.jenkins.phoenix;
 
 import hudson.Extension;
 import hudson.LocalPluginManager;
-import hudson.PluginManager;
 import hudson.model.Action;
 import hudson.model.Label;
 import jenkins.model.Jenkins;

@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.phoenix.steps;
+package com.surenpi.jenkins.phoenix.steps;
 
 import com.surenpi.jenkins.pipeline.step.DurableExecution;
 import com.surenpi.jenkins.pipeline.step.DurableStep;

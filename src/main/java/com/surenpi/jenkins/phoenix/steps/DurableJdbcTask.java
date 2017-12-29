@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.phoenix.steps;
+package com.surenpi.jenkins.phoenix.steps;
 
 import hudson.EnvVars;
 import hudson.FilePath;
