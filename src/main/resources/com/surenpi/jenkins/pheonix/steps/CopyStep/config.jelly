@@ -2,7 +2,7 @@
 <!--
 The MIT License
 
-Copyright 2014 Jesse Glick.
+Copyright 2017, suren <zxjlwt@126.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,22 +25,18 @@ THE SOFTWARE.
 
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
-    <f:entry field="serverHost" title="serverHost">
-        <f:textbox/>
-    </f:entry>
-    <f:entry field="serverPort" title="serverPort">
-        <f:textbox/>
-    </f:entry>
-    <f:entry field="username" title="username">
-        <f:textbox/>
-    </f:entry>
-    <f:entry field="password" title="password">
-        <f:textbox/>
-    </f:entry>
     <f:entry field="srcFile" title="srcFile">
         <f:textbox/>
     </f:entry>
-    <f:entry field="targetDir" title="targetDir">
+    <f:entry field="dstFile" title="dstFile">
         <f:textbox/>
     </f:entry>
+    <f:advanced>
+        <f:entry field="keepMeta" title="keepMeta">
+            <f:textbox/>
+        </f:entry>
+        <f:entry field="recursive" title="recursive">
+            <f:textbox/>
+        </f:entry>
+    </f:advanced>
 </j:jelly>

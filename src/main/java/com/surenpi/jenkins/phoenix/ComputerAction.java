@@ -1,9 +1,8 @@
-package org.jenkinsci.plugins.phoenix;
+package com.surenpi.jenkins.phoenix;
 
 import hudson.Extension;
 import hudson.model.Action;
 import hudson.model.Api;
-import hudson.model.Computer;
 import hudson.model.Label;
 import hudson.slaves.SlaveComputer;
 import jenkins.model.Jenkins;

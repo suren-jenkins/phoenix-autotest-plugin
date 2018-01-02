@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.phoenix.steps;
+package com.surenpi.jenkins.phoenix.steps;
 
 import com.surenpi.jenkins.pipeline.step.DurableExecution;
 import com.surenpi.jenkins.pipeline.step.DurableStep;
@@ -10,23 +10,29 @@ import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
+import java.io.Serializable;
 import java.util.logging.Logger;
 
 /**
  * Execute sql script through jdbc.
  * @author suren
  */
-public class JdbcStep extends DurableStep
+public class JdbcStep extends DurableStep implements Serializable
 {
     private static final Logger LOGGER = Logger.getLogger(JdbcStep.class.getName());
 
     private String url;
-    private String user;
-    private String password;
+    private String credentialsId;
     private String sql;
 
+    private boolean isText = false;
+
     @DataBoundConstructor
-    public JdbcStep(){}
+    public JdbcStep(String url, String credentialsId)
+    {
+        this.url = url;
+        this.credentialsId = credentialsId;
+    }
 
     @Override
     public StepExecution start(StepContext context) throws Exception
@@ -37,7 +43,7 @@ public class JdbcStep extends DurableStep
     @Override
     public DurableTask task()
     {
-        return new DurableJdbcTask(url, user, password, sql);
+        return new DurableJdbcTask(this);
     }
 
     @Extension
@@ -67,26 +73,15 @@ public class JdbcStep extends DurableStep
         this.url = url;
     }
 
-    public String getUser()
+    public String getCredentialsId()
     {
-        return user;
+        return credentialsId;
     }
 
     @DataBoundSetter
-    public void setUser(String user)
+    public void setCredentialsId(String credentialsId)
     {
-        this.user = user;
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    @DataBoundSetter
-    public void setPassword(String password)
-    {
-        this.password = password;
+        this.credentialsId = credentialsId;
     }
 
     public String getSql()
@@ -98,5 +93,16 @@ public class JdbcStep extends DurableStep
     public void setSql(String sql)
     {
         this.sql = sql;
+    }
+
+    public boolean isText()
+    {
+        return isText;
+    }
+
+    @DataBoundSetter
+    public void setText(boolean text)
+    {
+        isText = text;
     }
 }

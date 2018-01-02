@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.phoenix.steps;
+package com.surenpi.jenkins.phoenix.steps;
 
 import com.surenpi.jenkins.pipeline.step.DurableExecution;
 import com.surenpi.jenkins.pipeline.step.DurableStep;
@@ -10,24 +10,25 @@ import org.jenkinsci.plugins.workflow.steps.StepExecution;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
-import java.io.File;
-
 /**
  * @author suren
  */
 public class FtpStep extends DurableStep
 {
     private String serverHost;
-    private int serverPort;
-
-    private String username;
-    private String password;
+    private int serverPort = 21;
+    private String credentialsId;
 
     private String srcFile;
     private String targetDir;
 
     @DataBoundConstructor
-    public FtpStep(){}
+    public FtpStep(String serverHost, String srcFile, String targetDir)
+    {
+        this.serverHost = serverHost;
+        this.srcFile = srcFile;
+        this.targetDir = targetDir;
+    }
 
     @Override
     public StepExecution start(StepContext context) throws Exception
@@ -79,26 +80,15 @@ public class FtpStep extends DurableStep
         this.serverPort = serverPort;
     }
 
-    public String getUsername()
+    public String getCredentialsId()
     {
-        return username;
+        return credentialsId;
     }
 
     @DataBoundSetter
-    public void setUsername(String username)
+    public void setCredentialsId(String credentialsId)
     {
-        this.username = username;
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    @DataBoundSetter
-    public void setPassword(String password)
-    {
-        this.password = password;
+        this.credentialsId = credentialsId;
     }
 
     public String getSrcFile()
