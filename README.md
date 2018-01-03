@@ -22,3 +22,27 @@ phoenixSql(credentialsId: 'abac12df-4ed1-43df-bc3c-74c8a0936bc0',
     sql: 'test.sql',
     isText: true)
 ```
+
+```jenkins
+withSCM(
+    [$class: 'GitSCM',
+    additionalCredentials: [],
+    excludedCommitMessages: '',
+    excludedRegions: '',
+    excludedRevprop: '',
+    excludedUsers: '',
+    filterChangelog: false,
+    ignoreDirPropChanges: false,
+    includedRegions: '',
+    locations: [
+        [credentialsId: null,
+        depthOption: 'infinity',
+        ignoreExternalsOption: true,
+        local: '.',
+        remote: 'https://github.com/LinuxSuRen/autotest.parent']
+    ],
+    workspaceUpdater: [$class: 'UpdateUpdater']]
+){
+    echo 1
+}
+```
