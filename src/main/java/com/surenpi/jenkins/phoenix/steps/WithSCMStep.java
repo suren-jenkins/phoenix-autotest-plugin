@@ -23,7 +23,7 @@ import java.util.Set;
  */
 public class WithSCMStep extends Step
 {
-    private SCM scm;
+    private final SCM scm;
     private String repo;
     private String credentialId;
 
@@ -59,12 +59,6 @@ public class WithSCMStep extends Step
     public SCM getScm()
     {
         return scm;
-    }
-
-    @DataBoundSetter
-    public void setScm(SCM scm)
-    {
-        this.scm = scm;
     }
 
     public String getRepo()
