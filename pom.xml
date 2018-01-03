@@ -15,7 +15,7 @@
     <packaging>hpi</packaging>
 
     <name>Pipeline: Phoenix AutoTest Plugin</name>
-    <description>自动化测试框架流水线</description>
+    <description>Phoenix AutoTest Plugin</description>
     <url>https://github.com/suren-jenkins/phoenix-autotest</url>
 
     <properties>
