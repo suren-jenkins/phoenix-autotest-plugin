@@ -52,14 +52,14 @@ public class DiskStep extends Step
         @Override
         public String getFunctionName()
         {
-            return "phoenixDisk";
+            return "disk";
         }
 
         @Nonnull
         @Override
         public String getDisplayName()
         {
-            return "sdffd";
+            return "disk";
         }
     }
 

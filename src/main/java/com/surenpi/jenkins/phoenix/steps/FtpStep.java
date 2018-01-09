@@ -79,7 +79,7 @@ public class FtpStep extends DurableStep
         @Override
         public String getFunctionName()
         {
-            return "phoenixFtp";
+            return "ftp";
         }
 
         @Override

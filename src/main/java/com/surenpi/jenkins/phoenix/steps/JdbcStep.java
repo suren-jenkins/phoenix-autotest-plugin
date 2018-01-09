@@ -52,7 +52,7 @@ public class JdbcStep extends DurableStep implements Serializable
         @Override
         public String getFunctionName()
         {
-            return "phoenixSql";
+            return "jdbc";
         }
 
         @Override

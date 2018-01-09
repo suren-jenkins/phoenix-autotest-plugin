@@ -16,13 +16,13 @@ import java.util.Set;
  * 修改属性配置文件的流水线步骤
  * @author suren
  */
-public class ModifyPropertiesStep extends Step
+public class WritePropertiesStep extends Step
 {
     private String file;
     private Object data;
 
     @DataBoundConstructor
-    public ModifyPropertiesStep(String file, Object data)
+    public WritePropertiesStep(String file, Object data)
     {
         if(file == null || "".equals(file.trim()))
         {
@@ -49,16 +49,16 @@ public class ModifyPropertiesStep extends Step
         @Override
         public String getFunctionName()
         {
-            return "phoenixModifyProperties";
+            return "writeProperties";
         }
     }
 
     public static class Execution extends AbstractStepExecutionImpl
     {
-        private final ModifyPropertiesStep modifyPropertiesStep;
+        private final WritePropertiesStep modifyPropertiesStep;
         private final StepContext stepContext;
 
-        public Execution(ModifyPropertiesStep modifyPropertiesStep, StepContext stepContext)
+        public Execution(WritePropertiesStep modifyPropertiesStep, StepContext stepContext)
         {
             this.modifyPropertiesStep = modifyPropertiesStep;
             this.stepContext = stepContext;
