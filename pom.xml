@@ -9,7 +9,7 @@
         <relativePath />
     </parent>
 
-    <groupId>org.jenkins-ci.plugins.workflow</groupId>
+    <groupId>com.surenpi.jenkins</groupId>
     <artifactId>phoenix-autotest</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>hpi</packaging>
