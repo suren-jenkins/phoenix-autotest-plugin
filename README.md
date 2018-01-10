@@ -46,3 +46,10 @@ withSCM(
     echo 1
 }
 ```
+
+Time Step
+```jenkins
+time(format: 'yyyyMMdd', value: 'current') {
+    echo current
+}
+```

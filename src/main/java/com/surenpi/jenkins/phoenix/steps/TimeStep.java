@@ -46,6 +46,12 @@ public class TimeStep extends Step
         }
 
         @Override
+        public boolean takesImplicitBlockArgument()
+        {
+            return true;
+        }
+
+        @Override
         public String getFunctionName()
         {
             return "time";
